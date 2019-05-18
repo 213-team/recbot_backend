@@ -1,25 +1,37 @@
 package backend
 
 import (
-	"encoding/json"
+	"context"
+	"errors"
 	"fmt"
-	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/213-team/recbot_backend/subscriptionb"
 )
 
-//GetChannelsHandler returns a list of channels followed by a user
-func GetChannelsHandler(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	userID := vars["user_id"]
+//SubscriptionService manages subscripttions
+type SubscriptionService struct {
+}
 
-	message := Message{
-		Message: fmt.Sprintf("User %s doesn't have followed channels yet", userID),
-	}
+//ReadSubscription returns information about a subscription of a user
+func (s *SubscriptionService) ReadSubscription(_ context.Context, req *subscriptionb.ReadSubscriptionReq) (*subscriptionb.ReadSubscriptionRes, error) {
+	fmt.Println(req.User.GetId())
+	return &subscriptionb.ReadSubscriptionRes{
+		Subscription: &subscriptionb.Subscription{
+			Channel: &subscriptionb.Channel{Id: "CatsChannel"},
+			User:    &subscriptionb.User{Id: "FakeUser"}}}, nil
+}
 
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusNotFound)
-	if err := json.NewEncoder(w).Encode(message); err != nil {
-		panic(err)
-	}
+//AddSubscription adds a new subsciption to a user
+func (s *SubscriptionService) AddSubscription(context.Context, *subscriptionb.AddSubscriptionReq) (*subscriptionb.AddSubscriptionRes, error) {
+	return nil, errors.New("Not implemented")
+}
+
+//DeleteSubscription deletes a subscription for a user
+func (s *SubscriptionService) DeleteSubscription(context.Context, *subscriptionb.DeleteSubscriptionReq) (*subscriptionb.DeleteSubscriptionRes, error) {
+	return nil, errors.New("Not implemented")
+}
+
+//ListSubscriptions lists all user subscriptions
+func (s *SubscriptionService) ListSubscriptions(*subscriptionb.ListSubscriptionsReq, subscriptionb.SubscriptionService_ListSubscriptionsServer) error {
+	return errors.New("Not implemented")
 }
