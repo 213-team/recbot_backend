@@ -5,7 +5,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/213-team/recbot_backend/dao"
+	"github.com/213-team/recbot_backend/backend/core"
 	"github.com/213-team/recbot_backend/subscriptionb"
 	"google.golang.org/api/iterator"
 	"google.golang.org/grpc/codes"
@@ -23,19 +23,19 @@ func (s *SubscriptionService) ReadSubscription(_ context.Context, req *subscript
 
 //AddSubscription adds a new subsciption to a user
 func (s *SubscriptionService) AddSubscription(_ context.Context, req *subscriptionb.AddSubscriptionReq) (*subscriptionb.AddSubscriptionRes, error) {
-	dao.GetStorage().Add(req.GetSubscription())
+	core.AddSubscription(req.GetSubscription())
 	return &subscriptionb.AddSubscriptionRes{Status: &subscriptionb.Status{Success: true}}, nil
 }
 
 //DeleteSubscription deletes a subscription for a user
 func (s *SubscriptionService) DeleteSubscription(_ context.Context, req *subscriptionb.DeleteSubscriptionReq) (*subscriptionb.DeleteSubscriptionRes, error) {
-	dao.GetStorage().Delete(req.GetSubscription())
+	core.DeleteSubscription(req.GetSubscription())
 	return &subscriptionb.DeleteSubscriptionRes{Status: &subscriptionb.Status{Success: true}}, nil
 }
 
 //ListSubscriptions lists all user subscriptions
 func (s *SubscriptionService) ListSubscriptions(req *subscriptionb.ListSubscriptionsReq, stream subscriptionb.SubscriptionService_ListSubscriptionsServer) error {
-	subscriptionsCursor, err := dao.GetStorage().GetAllByUserID(req.User.Id)
+	subscriptionsCursor, err := core.ListSubscriptions(req.User.Id)
 	if err != nil {
 		return status.Errorf(codes.Internal, fmt.Sprintf("Unknown internal error: %v", err))
 	}

@@ -18,45 +18,45 @@ func main() {
 	}
 	defer conn.Close()
 	c := subscriptionb.NewSubscriptionServiceClient(conn)
-	c.AddSubscription(
-		context.Background(),
-		&subscriptionb.AddSubscriptionReq{
-			Subscription: &subscriptionb.Subscription{
-				Channel: &subscriptionb.Channel{
-					Id: "123",
-				},
-				User: &subscriptionb.User{
-					Id: "321",
-				},
-			},
-		},
-	)
-	c.AddSubscription(
-		context.Background(),
-		&subscriptionb.AddSubscriptionReq{
-			Subscription: &subscriptionb.Subscription{
-				Channel: &subscriptionb.Channel{
-					Id: "1234",
-				},
-				User: &subscriptionb.User{
-					Id: "321",
-				},
-			},
-		},
-	)
-	c.AddSubscription(
-		context.Background(),
-		&subscriptionb.AddSubscriptionReq{
-			Subscription: &subscriptionb.Subscription{
-				Channel: &subscriptionb.Channel{
-					Id: "12345",
-				},
-				User: &subscriptionb.User{
-					Id: "3212",
-				},
-			},
-		},
-	)
+	// c.AddSubscription(
+	// 	context.Background(),
+	// 	&subscriptionb.AddSubscriptionReq{
+	// 		Subscription: &subscriptionb.Subscription{
+	// 			Channel: &subscriptionb.Channel{
+	// 				Id: "123",
+	// 			},
+	// 			User: &subscriptionb.User{
+	// 				Id: "321",
+	// 			},
+	// 		},
+	// 	},
+	// )
+	// c.AddSubscription(
+	// 	context.Background(),
+	// 	&subscriptionb.AddSubscriptionReq{
+	// 		Subscription: &subscriptionb.Subscription{
+	// 			Channel: &subscriptionb.Channel{
+	// 				Id: "1234",
+	// 			},
+	// 			User: &subscriptionb.User{
+	// 				Id: "321",
+	// 			},
+	// 		},
+	// 	},
+	// )
+	// c.AddSubscription(
+	// 	context.Background(),
+	// 	&subscriptionb.AddSubscriptionReq{
+	// 		Subscription: &subscriptionb.Subscription{
+	// 			Channel: &subscriptionb.Channel{
+	// 				Id: "12345",
+	// 			},
+	// 			User: &subscriptionb.User{
+	// 				Id: "3212",
+	// 			},
+	// 		},
+	// 	},
+	// )
 	stream, err := c.ListSubscriptions(context.Background(), &subscriptionb.ListSubscriptionsReq{User: &subscriptionb.User{Id: "321"}})
 	for {
 		res, err := stream.Recv()
