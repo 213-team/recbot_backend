@@ -1,0 +1,6 @@
+backend:
+  port: 50051
+mongo:
+  host: localhost
+  port: 27017
+  dbname: recbot
